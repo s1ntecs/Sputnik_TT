@@ -1,7 +1,7 @@
 services:
   backend:
     build: ./backend
-    command: uvicorn src.app:app --host 0.0.0.0 --reload --port 8000
+    command: sh -c "uv sync --locked && uvicorn src.main:app --host 0.0.0.0 --reload --port 8000"
     container_name: backend
     volumes:
       - ./backend:/backend
@@ -13,13 +13,14 @@ services:
 
   backend-worker:
     build: ./backend
-    command: [ 'celery', '-A', 'src.tasks.celery_app', 'worker', '-l', 'info' ]
+    command: sh -c "uv sync --locked && celery -A src.scanning.celery_app worker -l info"
     container_name: backend-worker
     env_file: ".env.dev"
     volumes:
       - ./backend:/backend
     depends_on:
       - backend-db
+      - backend-redis
 
   backend-db:
     image: postgres:latest
