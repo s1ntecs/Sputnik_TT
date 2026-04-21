@@ -96,5 +96,3 @@ http://localhost:3000/test
 ```bash
 docker exec -it backend uv run pytest
 ```
-
-**Остановить:** `docker compose -f docker-compose.dev.yml down`. Данные БД сохраняются в volume `backend-db-volume` — чтобы начать с нуля, добавить `-v`.
