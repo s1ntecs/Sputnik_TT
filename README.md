@@ -74,3 +74,23 @@ src/
   components/  # PageHeader, FilesTable, AlertsTable, UploadModal - презентационные, без fetch
   app/page.tsx # тонкая композиция + единый errorMessage
 ```
+
+---
+
+## Как запустить
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+Миграции накатываются автоматически при старте backend-контейнера (`alembic upgrade head` в `command`). Пересборка (`up -d --build`) пересобирает только образы, БД в volume `backend-db-volume` сохраняется — данные и схема остаются на месте. Снести — `down -v`.
+
+http://localhost:3000/test
+
+**Тесты бэкенда:**
+
+```bash
+docker exec -it backend uv run pytest
+```
+
+**Остановить:** `docker compose -f docker-compose.dev.yml down`. Данные БД сохраняются в volume `backend-db-volume` — чтобы начать с нуля, добавить `-v`.

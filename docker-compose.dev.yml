@@ -1,7 +1,7 @@
 services:
   backend:
     build: ./backend
-    command: sh -c "uv sync --locked && uvicorn src.main:app --host 0.0.0.0 --reload --port 8000"
+    command: sh -c "uv sync --locked && alembic upgrade head && uvicorn src.main:app --host 0.0.0.0 --reload --port 8000"
     container_name: backend
     volumes:
       - ./backend:/backend
